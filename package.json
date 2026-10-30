@@ -6,9 +6,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "astro build && bunx wrangler pages deploy"
+    "deploy": "astro build && wrangler pages deploy"
   },
   "devDependencies": {
-    "astro": "^7.4.4"
+    "astro": "^7.4.4",
+    "wrangler": "^4.156.0"
   }
 }

@@ -35,12 +35,15 @@ nav.links a:hover,nav.links a[aria-current]{background:var(--surface-2);color:va
 .btn.ghost:hover{border-color:var(--text)}
 .btn.sm{height:32px;padding:0 12px;font-size:13px}
 
-.hero{background:#000}
-.lead{padding-top:clamp(56px,9vh,96px);padding-bottom:clamp(56px,9vh,96px)}
-.lead h1{font:500 clamp(40px,7vw,104px)/.98 var(--sans);letter-spacing:-.045em;max-width:11em;text-wrap:balance}
-.lead p{margin-top:28px;max-width:34rem;font-size:17px;line-height:1.55;color:var(--text-2);text-wrap:pretty}
+/* Hero: centred copy over a field of dots that ripple out from the middle. */
+.hero{position:relative;display:grid;place-items:center;min-height:calc(100svh - var(--nav-h));background:#000;overflow:hidden}
+#dots{position:absolute;inset:0;width:100%;height:100%}
+.lead{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding-block:80px}
+.lead h1{font:500 clamp(48px,9vw,128px)/.95 var(--sans);letter-spacing:-.05em}
+.lead p{margin-top:24px;max-width:30rem;font-size:17px;line-height:1.55;color:var(--text-2);text-wrap:balance}
 .lead p a{color:var(--text);text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--border-strong)}
 .lead p a:hover{text-decoration-color:var(--text)}
+.lead .cta{justify-content:center}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
 
 section{padding:56px 0}

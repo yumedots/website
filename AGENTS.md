@@ -38,7 +38,7 @@ bun run deploy    # build, then upload dist/ to Cloudflare Pages by hand
 
 1. **Static first.** Every page is plain HTML built ahead of time. Live data (GitHub stars, the author avatar) is a small `fetch` after load from the official GitHub API, cached in `sessionStorage`, and the page must read fine when it fails.
 2. **No UI framework and no CSS library.** No React, Vue, Tailwind or component kits. Plain Astro components, one stylesheet.
-3. **No new dependencies** unless one replaces code we would otherwise write and maintain. `astro` is the only one today.
+3. **No new dependencies** unless one replaces code we would otherwise write and maintain. Today: `astro`, and `wrangler` (dev only) for Cloudflare deploys.
 4. **Platform before script.** Use what the browser already does (speculation rules for instant navigation, `<details>`, CSS) before writing JavaScript.
 5. **Size budget.** About 50 KB of HTML per page, CSS inlined, fonts self-hosted through the Astro fonts API, no images above the fold unless they are SVG.
 6. **Sharp at every density.** Icons and logos are inline SVG. Raster images from the GitHub API are requested at at least 4× their displayed size.
