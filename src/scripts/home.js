@@ -7,10 +7,15 @@ document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click"
 // and a slow ripple runs outward from the centre. Still for reduced motion; paused off screen.
 const canvas = document.getElementById("dots"), ctx = canvas.getContext("2d");
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hero = canvas.parentElement;
 let w, h, step, running = false, frame = 0;
 
+// The hero's height is measured once per width and then held, so a browser toolbar sliding
+// in or out (which only changes the window height) never moves or stretches the dots.
 function size() {
   const dpr = devicePixelRatio || 1;
+  hero.style.minHeight = "";
+  hero.style.minHeight = `${hero.getBoundingClientRect().height}px`;
   ({ width: w, height: h } = canvas.getBoundingClientRect());
   canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -46,6 +51,7 @@ function play(on) {
   if (on) frame = requestAnimationFrame(loop); else cancelAnimationFrame(frame);
 }
 
+let lastWidth = innerWidth;
 size(); draw(0);
-addEventListener("resize", () => { size(); draw(performance.now()); });
+addEventListener("resize", () => { if (innerWidth !== lastWidth) { lastWidth = innerWidth; size(); draw(performance.now()); } });
 new IntersectionObserver(([e]) => play(e.isIntersecting)).observe(canvas);

@@ -16,6 +16,7 @@ const rules = JSON.stringify({ prerender: [{ where: { href_matches: `${base}*` }
 <title>{title}</title>
 <meta name="description" content={description}>
 <meta name="theme-color" content="#000000">
+<link rel="icon" href={`${base}yumedots.svg`} type="image/svg+xml">
 <Font cssVariable="--sans" preload />
 <Font cssVariable="--mono" preload />
 <script type="speculationrules" set:html={rules} />
@@ -34,7 +35,7 @@ const rules = JSON.stringify({ prerender: [{ where: { href_matches: `${base}*` }
     </nav>
     <div class="right">
       <a class="stars" href="https://github.com/yumedots/dotfiles" aria-label="yumedots/dotfiles on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d={gh}/></svg><span id="stars" hidden></span></a>
-      <a class="btn sm" href={`${base}#install`}>Get it</a>
+      <a class="btn sm" href="https://github.com/yumedots/dotfiles">Open the repo</a>
     </div>
   </div>
 </header>
@@ -43,7 +44,7 @@ const rules = JSON.stringify({ prerender: [{ where: { href_matches: `${base}*` }
 
 {footer && <footer>
   <div class="wrap">
-    <p>Dotfiles by the <a href="https://github.com/yumedots">yumedots</a> organization, made by <a class="me" href="https://github.com/yyyumeniku"><img id="me" alt="" width="20" height="20" hidden>yyyumeniku</a>.</p>
+    <p>Dotfiles by the <a class="org" href="https://github.com/yumedots"><svg viewBox="0 0 4 4" fill="currentColor" aria-hidden="true"><path d="M0 0h4v4H3V1H2v3H0V3h1V1H0z"/></svg>yumedots</a> organization, made by <a class="me" href="https://github.com/yyyumeniku"><img id="me" alt="" width="20" height="20" hidden>yyyumeniku</a>.</p>
     <ul class="cols">
       <li><a href={`${base}#install`}>Install</a></li>
       <li><a href={`${base}docs/`}>Documentation</a></li>
