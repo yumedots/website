@@ -26,8 +26,8 @@ const [prev, next] = [pages[i - 1], pages[i + 1]];
       <h1>{page.title}</h1>
       <article class="prose"><page.Content /></article>
       <nav class="pager" aria-label="Pages">
-        {prev && <a href={href(prev)}><span>Previous</span>{prev.title}</a>}
-        {next && <a class="next" href={href(next)}><span>Next</span>{next.title}</a>}
+        {prev && <a href={href(prev)} aria-label={`Previous: ${prev.title}`}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>{prev.title}</a>}
+        {next && <a class="next" href={href(next)} aria-label={`Next: ${next.title}`}>{next.title}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>}
       </nav>
     </div>
   </div>

@@ -1,6 +1,6 @@
 # yumedots website
 
-The site for the yumedots Hyprland dotfiles, published at https://yumedots.github.io/website/.
+The site for the yumedots Hyprland dotfiles, hosted on Cloudflare as static files (Workers static assets).
 
 ## Commands
 
@@ -11,9 +11,10 @@ bun install       # install dependencies
 bun run dev       # dev server; restart it after changing src/content.config.ts
 bun run build     # static build into dist/
 bun run preview   # serve dist/ to check the production build
+bun run deploy    # build, then upload dist/ to Cloudflare with wrangler
 ```
 
-Pushing to `main` deploys to GitHub Pages through `.github/workflows/deploy.yml`.
+`wrangler.jsonc` tells Cloudflare to serve `dist/` as static files; there is no server code. With the repository connected in Cloudflare (Workers Builds), every push to `main` builds with `bun run build` and deploys.
 
 ## Layout
 
