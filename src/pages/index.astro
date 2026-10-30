@@ -1,230 +1,36 @@
 ---
-import "../styles/site.css";
-import { WORD, W, H } from "../lib/wordmark.js";
+import Base from "../layouts/Base.astro";
 
-const pixels = WORD.flatMap((row, y) => [...row].flatMap((b, x) => (b === "1" ? [[x, y]] : [])));
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const clone = "git clone --recursive https://github.com/yumedots/dotfiles ~/dotfiles";
+const copy = "cp -r ~/dotfiles/* ~/.config/";
 ---
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>yumedots</title>
-<meta name="description" content="Monochrome Hyprland + quickshell dotfiles by yumedots.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
-</head>
-<body>
-
-<header id="top">
-  <div class="wrap">
-    <a class="logo" href="#home" aria-label="yumedots home">
-      <svg viewBox="0 0 5 7" shape-rendering="crispEdges" fill="currentColor"><path d="M0 0h1v2H0zM4 0h1v2H4zM1 2h1v1H1zM3 2h1v1H3zM2 3h1v4H2z"/></svg>
-      yumedots
-    </a>
-    <nav class="links">
-      <a href="#about">About</a>
-      <a href="#install">Install</a>
-      <a href="#manual">Manual</a>
-    </nav>
-    <div class="right">
-      <a class="icon" href="https://github.com/yumedots" aria-label="yumedots on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
-      <a class="btn sm" href="#install">Get it</a>
-    </div>
-  </div>
-</header>
-
-<main>
-  <section class="hero" id="home" style="padding-bottom:0">
-    <canvas id="field" aria-hidden="true"></canvas>
-    <div class="fill"></div>
-    <div class="slot" id="slot" role="img" aria-label="yumedots"></div>
-    <div class="copy">
-      <h1>Monochrome Hyprland, built by hand. By <a href="https://github.com/yumedots">yumedots</a></h1>
-      <p>A bar, launcher and widgets written in QML. A compositor configured in Lua. Black, flat, square and fast.</p>
+<Base>
+  <section class="hero">
+    <div class="wrap lead">
+      <h1>yumedots</h1>
+      <p>Hyprland dotfiles by <a href="https://github.com/yumedots">yumedots</a>. Black, flat and fast, ready the moment you log in.</p>
       <div class="cta">
         <a class="btn" href="#install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Get the dotfiles</a>
-        <a class="btn ghost" href="https://github.com/yumedots/dotfiles"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>View on GitHub</a>
-      </div>
-    </div>
-    <div class="fill"></div>
-  </section>
-
-  <section id="about">
-    <div class="wrap about">
-      <div>
-        <h2>Everything on screen is mine.</h2>
-        <p>No borrowed bar, no theme pack. Every widget, popup and menu is a QML file in <code>quickshell/</code>, and every bind, rule and animation is Lua in <code>hypr/</code>.</p>
-        <p>One white border, no rounding, no blur, no shadows. Colors only show up where they mean something: CPU is violet, memory is green, weather is blue.</p>
-        <p>Fork it, read it, take what you like.</p>
-      </div>
-      <div class="term">
-        <div class="bar"><i></i><i></i><i></i></div>
-<pre><span class="d">~/dotfiles</span> <b>ls</b>
-<b>hypr/</b>        <span class="d">compositor, in lua</span>
-<b>quickshell/</b>  <span class="d">bar, launcher, widgets</span>
-<b>alacritty/</b>   <span class="d">terminal daemon</span>
-<b>zsh/</b>         <span class="d">shortcuts + minimal</span>
-<b>yazi/</b>        <span class="d">file manager</span>
-<b>micro/</b>       <span class="d">editor</span>
-<b>lazygit/</b>     <span class="d">git ui</span>
-<b>gtk-*/</b>       <span class="d">dark gtk 3 + 4</span>
-<b>scripts/</b>     <span class="d">hypr-test</span></pre>
+        <a class="btn ghost" href={`${base}docs/`}>Documentation</a>
       </div>
     </div>
   </section>
 
-  <section class="deep" id="inside">
+  <section class="install" id="install">
     <div class="wrap">
       <div class="head">
-        <div>
-          <h2>What's inside</h2>
-          <p>The pieces that make up the desktop.</p>
-        </div>
-        <a class="more" href="https://github.com/yumedots/dotfiles">Browse the repo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <h2>Install</h2>
+        <p>Back up your <code>~/.config</code>, clone, copy, then log into Hyprland. Everything autostarts.</p>
       </div>
-      <div class="grid three">
-        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/quickshell"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2" stroke-linecap="square"><path d="M3 5h18v4H3zM3 13h8v6H3zM15 13h6v6h-6z"/></svg><h3>Bar & widgets</h3></div><p>CPU, memory, volume, weather, network, power, GitHub contributions, media, tray and notifications, each with its own popup.</p><div class="path">quickshell/bar</div></a>
-        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/quickshell/launcher"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="square"><path d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM15.5 15.5 21 21"/></svg><h3>Launcher</h3></div><p>Apps, clipboard history, window switcher and power menu in one fast always-warm shell.</p><div class="path">quickshell/launcher</div></a>
-        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/hypr"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="square"><path d="M3 3h8v18H3zM13 3h8v8h-8zM13 13h8v8h-8z"/></svg><h3>Hyprland</h3></div><p>Dwindle tiling, 1px white border, quick popin animations, scratchpad and workspace history.</p><div class="path">hypr/*.lua</div></a>
-        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/alacritty"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2" stroke-linecap="square"><path d="M3 4h18v16H3zM7 9l3 3-3 3M12 15h5"/></svg><h3>Terminal</h3></div><p>Alacritty runs as a daemon, so new windows open instantly. Zsh with shortcuts and the minimal prompt.</p><div class="path">alacritty · zsh</div></a>
-        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/yazi"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="square"><path d="M3 6h7l2 2h9v11H3z"/></svg><h3>TUIs</h3></div><p>Yazi, micro and lazygit, themed to match the rest of the desktop.</p><div class="path">yazi · micro · lazygit</div></a>
-        <a class="card" href="https://github.com/yumedots/pi-dotfiles"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="2" stroke-linecap="square"><path d="M6 3h12v18H6zM10 7h4M10 17h4"/></svg><h3>pi-dotfiles</h3></div><p>The companion config, pulled in as a submodule.</p><div class="path">yumedots/pi-dotfiles</div></a>
+      <div class="code">
+<pre><span>$ </span>{clone}
+<span>$ </span>{copy}</pre>
+          <button class="copy-btn" type="button" aria-label="Copy commands" data-copy={`${clone}\n${copy}`}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M8 8h12v12H8zM4 16V4h12"/></svg></button>
       </div>
+      <a class="more" href={`${base}docs/`}>Every keybind is in the documentation <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </section>
+</Base>
 
-  <section id="install">
-    <div class="wrap">
-      <div class="head">
-        <div>
-          <h2>Install</h2>
-          <p>Clone, copy, log into Hyprland. Everything autostarts.</p>
-        </div>
-      </div>
-      <div class="grid">
-        <div class="card">
-          <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="square"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><h3>Clone and copy</h3></div>
-          <p>Back up your <code style="font:13.5px var(--mono)">~/.config</code> first.</p>
-          <div class="code">
-<pre><span>$ </span>git clone --recursive https://github.com/yumedots/dotfiles ~/dotfiles
-<span>$ </span>cp -r ~/dotfiles/* ~/.config/</pre>
-            <button class="copy-btn" aria-label="Copy commands" data-copy="git clone --recursive https://github.com/yumedots/dotfiles ~/dotfiles&#10;cp -r ~/dotfiles/* ~/.config/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M8 8h12v12H8zM4 16V4h12"/></svg></button>
-          </div>
-        </div>
-        <div class="card">
-          <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="square"><path d="M4 6h16M4 12h16M4 18h10"/></svg><h3>You'll need</h3></div>
-          <p>These are expected on your system before the first login.</p>
-          <div class="reqs"><span>hyprland</span><span>quickshell</span><span>alacritty</span><span>awww</span><span>cliphist</span><span>wl-clipboard</span><span>polkit-gnome</span><span>GoogleSansCode Nerd Font</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="deep" id="manual">
-    <div class="wrap">
-      <div class="head">
-        <div>
-          <h2>Manual</h2>
-          <p>Everything you need to drive it, and where to change it.</p>
-        </div>
-      </div>
-      <div class="doc">
-        <aside class="toc">
-          <h4>Chapters</h4>
-          <a href="#m-windows">Windows</a>
-          <a href="#m-launcher">Launcher</a>
-          <a href="#m-widgets">Bar widgets</a>
-          <a href="#m-config">Configuration</a>
-        </aside>
-        <div>
-          <div class="chapter" id="m-windows">
-            <h3>Windows</h3>
-            <table>
-              <tr><td><kbd>Super</kbd><kbd>Return</kbd></td><td>Terminal</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>W</kbd></td><td>Close window</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>Space</kbd></td><td>Toggle floating</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>J</kbd></td><td>Toggle split</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>1-9</kbd></td><td>Go to workspace</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>Shift</kbd><kbd>1-9</kbd></td><td>Move window to workspace</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>S</kbd></td><td>Scratchpad</td></tr>
-              <tr><td><kbd>F11</kbd></td><td>Fullscreen</td></tr>
-            </table>
-          </div>
-          <div class="chapter" id="m-launcher">
-            <h3>Launcher</h3>
-            <table>
-              <tr><td><kbd>Alt</kbd><kbd>Space</kbd></td><td>Apps</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>Tab</kbd></td><td>Window switcher</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>B</kbd></td><td>Clipboard history</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>F4</kbd></td><td>Power menu</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>E</kbd></td><td>Browser</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>Shift</kbd><kbd>E</kbd></td><td>Files</td></tr>
-            </table>
-          </div>
-          <div class="chapter" id="m-widgets">
-            <h3>Bar widgets</h3>
-            <p>Each widget opens its own popup.</p>
-            <table>
-              <tr><td><kbd>Super</kbd><kbd>Z</kbd></td><td><i class="dot" style="background:var(--violet)"></i>CPU</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>X</kbd></td><td><i class="dot" style="background:var(--green)"></i>Memory</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>C</kbd></td><td><i class="dot" style="background:#fff"></i>Volume</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>A</kbd></td><td><i class="dot" style="background:#4f4f4f"></i>Calendar</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>H</kbd></td><td><i class="dot" style="background:var(--blue)"></i>Weather</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>V</kbd></td><td><i class="dot" style="background:#61afef"></i>Network</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>F</kbd></td><td><i class="dot" style="background:var(--green)"></i>Power</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>P</kbd></td><td><i class="dot" style="background:var(--indigo)"></i>Display</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>G</kbd></td><td><i class="dot" style="background:var(--green)"></i>GitHub contributions</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>O</kbd></td><td><i class="dot" style="background:var(--text-muted)"></i>Notifications</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>T</kbd></td><td><i class="dot" style="background:var(--text-muted)"></i>Tray</td></tr>
-              <tr><td><kbd>Super</kbd><kbd>Shift</kbd><kbd>H</kbd></td><td><i class="dot" style="background:var(--text-muted)"></i>Bare bar</td></tr>
-            </table>
-          </div>
-          <div class="chapter" id="m-config">
-            <h3>Configuration</h3>
-            <table>
-              <tr><td><code>quickshell/config.js</code></td><td>Colors, fonts, sizes</td></tr>
-              <tr><td><code>quickshell/topbarlayout.json</code></td><td>Bar widget order</td></tr>
-              <tr><td><code>hypr/binds.lua</code></td><td>Keybinds</td></tr>
-              <tr><td><code>hypr/looknfeel.lua</code></td><td>Gaps, borders, animations</td></tr>
-              <tr><td><code>hypr/programs.lua</code></td><td>Terminal, browser, file manager</td></tr>
-              <tr><td><code>hypr/autostart.lua</code></td><td>What starts with the session</td></tr>
-            </table>
-            <p style="margin-top:16px">Saving a QML file live-reloads the shell. No restart needed.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <div class="brand">
-      <a href="#home" aria-label="yumedots home"><svg class="wordmark" viewBox={`0 0 ${W} ${H}`} fill="currentColor" shape-rendering="crispEdges">{pixels.map(([x, y]) => <rect x={x} y={y} width="1" height="1" />)}</svg></a>
-      <p>Dotfiles by the <a href="https://github.com/yumedots">yumedots</a> organization, made by <a href="https://github.com/yyyumeniku">yyyumeniku</a>.</p>
-    </div>
-    <div class="cols">
-      <div><h4>Repos</h4><ul>
-        <li><a href="https://github.com/yumedots/dotfiles">dotfiles</a></li>
-        <li><a href="https://github.com/yumedots/pi-dotfiles">pi-dotfiles</a></li>
-      </ul></div>
-      <div><h4>GitHub</h4><ul>
-        <li><a href="https://github.com/yumedots">yumedots</a></li>
-        <li><a href="https://github.com/yyyumeniku">yyyumeniku</a></li>
-        <li><a href="https://github.com/yumedots/dotfiles/issues">Issues</a></li>
-      </ul></div>
-      <div><h4>Site</h4><ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#install">Install</a></li>
-        <li><a href="#manual">Manual</a></li>
-      </ul></div>
-    </div>
-  </div>
-</footer>
-
-
-<script src="../scripts/hero.js"></script>
-</body>
-</html>
+<script src="../scripts/home.js"></script>
