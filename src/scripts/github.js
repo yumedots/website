@@ -18,6 +18,6 @@ gh("repos/yumedots/dotfiles").then(({ stargazers_count: n }) => {
 
 gh("users/yyyumeniku").then(({ avatar_url }) => {
   const img = document.getElementById("me");
-  img.src = `${avatar_url}${avatar_url.includes("?") ? "&" : "?"}s=40`;
+  img.src = `${avatar_url}${avatar_url.includes("?") ? "&" : "?"}s=96`;
   img.hidden = false;
 }).catch(() => {});
