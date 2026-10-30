@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>yumedots</title>
+<meta name="description" content="Monochrome Hyprland + quickshell dotfiles by yumedots.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Google+Sans+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-deep:#050505;--bg:#0a0a0a;--surface:#101010;--surface-2:#1a1a1a;
+  --border:#1f1f1f;--border-strong:#3f3f3f;
+  --text:#fff;--text-2:#cfcfcf;--text-muted:#8a8a8a;
+  --brand:#fff;--brand-ink:#000;
+  --violet:#a78bfa;--green:#7bd88f;--blue:#7cc4f0;--pink:#e06c9f;--yellow:#d8b04a;--indigo:#7aa2f7;
+  --sans:"Geist",system-ui,sans-serif;--mono:"Google Sans Code",ui-monospace,monospace;
+  --nav-h:56px;color-scheme:dark
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);scroll-behavior:smooth;scroll-padding-top:var(--nav-h)}
+body{background:var(--bg);color:var(--text);font:15px/1.65 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+::selection{background:#3f3f3f}
+:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+.wrap{max-width:72rem;margin:0 auto;padding:0 16px}
+@media(min-width:640px){.wrap{padding:0 24px}}
+
+header{position:sticky;top:0;z-index:100;height:var(--nav-h);transition:background .2s,border-color .2s;border-bottom:1px solid transparent}
+header.past{background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-color:var(--border)}
+header .wrap{display:flex;align-items:center;gap:12px;height:100%}
+.logo{display:flex;align-items:center;gap:10px;font:500 15px var(--mono)}
+.logo svg{width:20px;height:20px}
+nav.links{display:none;margin-left:12px}
+nav.links a{padding:6px 12px;font-size:14px;color:var(--text-2);transition:background .15s,color .15s}
+nav.links a:hover{background:var(--surface-2);color:var(--text)}
+.right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.icon{display:grid;place-items:center;width:32px;height:32px;color:var(--text-2);transition:color .15s}
+.icon:hover{color:var(--text)}
+.icon svg{width:20px;height:20px}
+@media(min-width:768px){nav.links{display:flex}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px 0 12px;font:500 14px var(--sans);white-space:nowrap;border:1px solid var(--brand);background:var(--brand);color:var(--brand-ink);transition:background .15s,color .15s}
+.btn svg{width:18px;height:18px}
+.btn:hover{background:transparent;color:var(--brand)}
+.btn.ghost{background:var(--bg);color:var(--text);border-color:var(--border-strong)}
+.btn.ghost:hover{border-color:var(--text)}
+.btn.sm{height:32px;padding:0 12px;font-size:13px}
+
+.hero{position:relative;margin-top:calc(-1 * var(--nav-h));padding-top:var(--nav-h);min-height:100svh;display:flex;flex-direction:column;align-items:center;overflow:hidden;background:#000;border-bottom:1px solid var(--border);user-select:none}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero .fill{flex:1}
+.hero .slot{position:relative;width:min(88%,56rem);aspect-ratio:47/7;pointer-events:none}
+.hero .copy{position:relative;margin-top:48px;padding:0 24px;text-align:center;max-width:42rem;pointer-events:none}
+.hero h1{font:500 clamp(22px,4vw,30px)/1.3 var(--mono);letter-spacing:-.01em;text-wrap:balance}
+.hero h1 a{pointer-events:auto;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;transition:text-decoration-color .15s}
+.hero h1 a:hover{text-decoration-color:var(--text)}
+.hero p{margin-top:16px;color:var(--text-2);text-wrap:balance}
+.hero .cta{margin-top:36px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;pointer-events:auto}
+.hero .copy>*{animation:rise .7s cubic-bezier(.15,0,.1,1) both}
+.hero .copy>:nth-child(2){animation-delay:.08s}
+.hero .copy>:nth-child(3){animation-delay:.16s}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+@media(prefers-reduced-motion:reduce){.hero .copy>*{animation:none}}
+
+section{padding:56px 0}
+@media(min-width:1024px){section{padding:96px 0}}
+.deep{background:var(--bg-deep);border-block:1px solid var(--border)}
+.head{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:32px}
+.head>div{max-width:36rem}
+h2{font:600 clamp(24px,3vw,28px)/1.25 var(--sans);letter-spacing:-.02em}
+.head p{margin-top:8px;color:var(--text-2);text-wrap:pretty}
+.more{display:inline-flex;align-items:center;gap:8px;min-height:40px;font-size:14px;font-weight:500;text-decoration:underline;text-underline-offset:4px;transition:color .15s}
+.more:hover{color:var(--text-muted)}
+.more svg{width:18px;height:18px}
+
+.about{display:grid;gap:40px}
+@media(min-width:1024px){.about{grid-template-columns:1.3fr 1fr;gap:80px;align-items:center}}
+.about p{margin-top:20px;color:var(--text-2);max-width:35rem;text-wrap:pretty}
+.about p code,.doc code{font:13.5px var(--mono);color:var(--text);background:var(--surface-2);padding:1px 6px}
+.term{background:var(--surface);box-shadow:0 0 0 1px var(--border);font:13.5px/1.75 var(--mono);color:var(--text-2)}
+.term .bar{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.term .bar i{width:10px;height:10px;background:var(--border-strong)}
+.term pre{padding:16px;overflow-x:auto}
+.term b{color:var(--text);font-weight:500}
+.term .d{color:var(--text-muted)}
+
+.grid{display:grid;gap:16px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.grid.three{grid-template-columns:repeat(3,1fr)}}
+.card{display:flex;flex-direction:column;min-width:0;padding:24px;background:var(--surface);box-shadow:0 0 0 1px var(--border);transition:box-shadow .15s}
+a.card:hover{box-shadow:0 0 0 1px var(--border-strong)}
+.card .t{display:flex;align-items:center;gap:10px}
+.card .t svg{width:20px;height:20px;flex:none}
+h3{font:500 18px/1.3 var(--sans);letter-spacing:-.01em}
+.card p{margin-top:12px;color:var(--text-2);text-wrap:pretty}
+.card .path{margin-top:auto;padding-top:20px;font:13px var(--mono);color:var(--text-muted)}
+
+.code{margin-top:20px;display:flex;align-items:flex-start;background:#000;box-shadow:0 0 0 1px var(--border)}
+.code pre{flex:1;padding:14px 16px;overflow-x:auto;font:13.5px/1.7 var(--mono);color:var(--text)}
+.code pre span{color:var(--text-muted);user-select:none}
+.copy-btn{flex:none;width:44px;height:44px;display:grid;place-items:center;background:none;border:0;color:var(--text-muted);cursor:pointer;transition:color .15s}
+.copy-btn:hover{color:var(--text)}
+.copy-btn svg{width:18px;height:18px}
+.reqs{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.reqs span{font:13px var(--mono);padding:4px 10px;background:var(--surface-2);color:var(--text-2)}
+
+.doc{display:grid;grid-template-columns:minmax(0,1fr);gap:32px}
+@media(min-width:1024px){.doc{grid-template-columns:14rem 1fr;gap:64px}}
+.toc{display:none}
+@media(min-width:1024px){.toc{display:block;position:sticky;top:calc(var(--nav-h) + 32px);align-self:start}}
+.toc h4{font:500 11px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px}
+.toc a{display:block;padding:5px 0 5px 12px;border-left:1px solid var(--border);font-size:14px;color:var(--text-2);transition:color .15s,border-color .15s}
+.toc a:hover{color:var(--text);border-color:var(--text)}
+.chapter+.chapter{margin-top:56px}
+.chapter h3{font-size:20px;font-weight:600;margin-bottom:12px}
+.chapter>p{color:var(--text-2);margin-bottom:16px;max-width:42rem}
+table{width:100%;border-collapse:collapse;box-shadow:0 0 0 1px var(--border);background:var(--surface)}
+td{padding:11px 16px;overflow-wrap:anywhere;border-top:1px solid var(--border);vertical-align:top;color:var(--text-2)}
+tr:first-child td{border-top:0}
+td:first-child{width:42%}
+kbd{display:inline-block;font:12.5px/1 var(--mono);color:var(--text);padding:4px 7px;margin:0 2px 2px 0;background:var(--surface-2);box-shadow:inset 0 -1px 0 var(--border-strong)}
+.dot{display:inline-block;width:8px;height:8px;margin-right:10px;vertical-align:1px}
+
+footer{position:relative;border-top:1px solid var(--border);overflow:hidden}
+footer .wrap{padding-top:56px;padding-bottom:56px;display:flex;flex-direction:column;gap:40px}
+@media(min-width:1024px){footer .wrap{flex-direction:row;justify-content:space-between}}
+footer .brand p{margin-top:16px;font-size:14px;color:var(--text-muted);max-width:22rem}
+footer .brand p a{color:var(--text-2);text-decoration:underline;text-decoration-color:var(--border-strong);text-underline-offset:4px}
+footer .brand p a:hover{color:var(--text)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,10rem));gap:40px 24px}
+@media(min-width:640px){.cols{grid-template-columns:repeat(3,minmax(0,10rem))}}
+.cols h4{font:500 12px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted)}
+.cols ul{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.cols a{font-size:14px;color:var(--text-2);transition:color .15s}
+.cols a:hover{color:var(--text)}
+.wordmark{display:block;height:22px;width:auto}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap">
+    <a class="logo" href="#home" aria-label="yumedots home">
+      <svg viewBox="0 0 5 7" shape-rendering="crispEdges" fill="currentColor"><path d="M0 0h1v2H0zM4 0h1v2H4zM1 2h1v1H1zM3 2h1v1H3zM2 3h1v4H2z"/></svg>
+      yumedots
+    </a>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#install">Install</a>
+      <a href="#manual">Manual</a>
+    </nav>
+    <div class="right">
+      <a class="icon" href="https://github.com/yumedots" aria-label="yumedots on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <a class="btn sm" href="#install">Get it</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="home" style="padding-bottom:0">
+    <canvas id="field" aria-hidden="true"></canvas>
+    <div class="fill"></div>
+    <div class="slot" id="slot" role="img" aria-label="yumedots"></div>
+    <div class="copy">
+      <h1>Monochrome Hyprland, built by hand. By <a href="https://github.com/yumedots">yumedots</a></h1>
+      <p>A bar, launcher and widgets written in QML. A compositor configured in Lua. Black, flat, square and fast.</p>
+      <div class="cta">
+        <a class="btn" href="#install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Get the dotfiles</a>
+        <a class="btn ghost" href="https://github.com/yumedots/dotfiles"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>View on GitHub</a>
+      </div>
+    </div>
+    <div class="fill"></div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <h2>Everything on screen is mine.</h2>
+        <p>No borrowed bar, no theme pack. Every widget, popup and menu is a QML file in <code>quickshell/</code>, and every bind, rule and animation is Lua in <code>hypr/</code>.</p>
+        <p>One white border, no rounding, no blur, no shadows. Colors only show up where they mean something: CPU is violet, memory is green, weather is blue.</p>
+        <p>Fork it, read it, take what you like.</p>
+      </div>
+      <div class="term">
+        <div class="bar"><i></i><i></i><i></i></div>
+<pre><span class="d">~/dotfiles</span> <b>ls</b>
+<b>hypr/</b>        <span class="d">compositor, in lua</span>
+<b>quickshell/</b>  <span class="d">bar, launcher, widgets</span>
+<b>alacritty/</b>   <span class="d">terminal daemon</span>
+<b>zsh/</b>         <span class="d">shortcuts + minimal</span>
+<b>yazi/</b>        <span class="d">file manager</span>
+<b>micro/</b>       <span class="d">editor</span>
+<b>lazygit/</b>     <span class="d">git ui</span>
+<b>gtk-*/</b>       <span class="d">dark gtk 3 + 4</span>
+<b>scripts/</b>     <span class="d">hypr-test</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="deep" id="inside">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <h2>What's inside</h2>
+          <p>The pieces that make up the desktop.</p>
+        </div>
+        <a class="more" href="https://github.com/yumedots/dotfiles">Browse the repo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="grid three">
+        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/quickshell"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2" stroke-linecap="square"><path d="M3 5h18v4H3zM3 13h8v6H3zM15 13h6v6h-6z"/></svg><h3>Bar & widgets</h3></div><p>CPU, memory, volume, weather, network, power, GitHub contributions, media, tray and notifications, each with its own popup.</p><div class="path">quickshell/bar</div></a>
+        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/quickshell/launcher"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="square"><path d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM15.5 15.5 21 21"/></svg><h3>Launcher</h3></div><p>Apps, clipboard history, window switcher and power menu in one fast always-warm shell.</p><div class="path">quickshell/launcher</div></a>
+        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/hypr"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="square"><path d="M3 3h8v18H3zM13 3h8v8h-8zM13 13h8v8h-8z"/></svg><h3>Hyprland</h3></div><p>Dwindle tiling, 1px white border, quick popin animations, scratchpad and workspace history.</p><div class="path">hypr/*.lua</div></a>
+        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/alacritty"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2" stroke-linecap="square"><path d="M3 4h18v16H3zM7 9l3 3-3 3M12 15h5"/></svg><h3>Terminal</h3></div><p>Alacritty runs as a daemon, so new windows open instantly. Zsh with shortcuts and the minimal prompt.</p><div class="path">alacritty · zsh</div></a>
+        <a class="card" href="https://github.com/yumedots/dotfiles/tree/main/yazi"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="square"><path d="M3 6h7l2 2h9v11H3z"/></svg><h3>TUIs</h3></div><p>Yazi, micro and lazygit, themed to match the rest of the desktop.</p><div class="path">yazi · micro · lazygit</div></a>
+        <a class="card" href="https://github.com/yumedots/pi-dotfiles"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="2" stroke-linecap="square"><path d="M6 3h12v18H6zM10 7h4M10 17h4"/></svg><h3>pi-dotfiles</h3></div><p>The companion config, pulled in as a submodule.</p><div class="path">yumedots/pi-dotfiles</div></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <h2>Install</h2>
+          <p>Clone, copy, log into Hyprland. Everything autostarts.</p>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="square"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><h3>Clone and copy</h3></div>
+          <p>Back up your <code style="font:13.5px var(--mono)">~/.config</code> first.</p>
+          <div class="code">
+<pre><span>$ </span>git clone --recursive https://github.com/yumedots/dotfiles ~/dotfiles
+<span>$ </span>cp -r ~/dotfiles/* ~/.config/</pre>
+            <button class="copy-btn" aria-label="Copy commands" data-copy="git clone --recursive https://github.com/yumedots/dotfiles ~/dotfiles&#10;cp -r ~/dotfiles/* ~/.config/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M8 8h12v12H8zM4 16V4h12"/></svg></button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="square"><path d="M4 6h16M4 12h16M4 18h10"/></svg><h3>You'll need</h3></div>
+          <p>These are expected on your system before the first login.</p>
+          <div class="reqs"><span>hyprland</span><span>quickshell</span><span>alacritty</span><span>awww</span><span>cliphist</span><span>wl-clipboard</span><span>polkit-gnome</span><span>GoogleSansCode Nerd Font</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="deep" id="manual">
+    <div class="wrap">
+      <div class="head">
+        <div>
+          <h2>Manual</h2>
+          <p>Everything you need to drive it, and where to change it.</p>
+        </div>
+      </div>
+      <div class="doc">
+        <aside class="toc">
+          <h4>Chapters</h4>
+          <a href="#m-windows">Windows</a>
+          <a href="#m-launcher">Launcher</a>
+          <a href="#m-widgets">Bar widgets</a>
+          <a href="#m-config">Configuration</a>
+        </aside>
+        <div>
+          <div class="chapter" id="m-windows">
+            <h3>Windows</h3>
+            <table>
+              <tr><td><kbd>Super</kbd><kbd>Return</kbd></td><td>Terminal</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>W</kbd></td><td>Close window</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>Space</kbd></td><td>Toggle floating</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>J</kbd></td><td>Toggle split</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>1-9</kbd></td><td>Go to workspace</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>Shift</kbd><kbd>1-9</kbd></td><td>Move window to workspace</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>S</kbd></td><td>Scratchpad</td></tr>
+              <tr><td><kbd>F11</kbd></td><td>Fullscreen</td></tr>
+            </table>
+          </div>
+          <div class="chapter" id="m-launcher">
+            <h3>Launcher</h3>
+            <table>
+              <tr><td><kbd>Alt</kbd><kbd>Space</kbd></td><td>Apps</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>Tab</kbd></td><td>Window switcher</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>B</kbd></td><td>Clipboard history</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>F4</kbd></td><td>Power menu</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>E</kbd></td><td>Browser</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>Shift</kbd><kbd>E</kbd></td><td>Files</td></tr>
+            </table>
+          </div>
+          <div class="chapter" id="m-widgets">
+            <h3>Bar widgets</h3>
+            <p>Each widget opens its own popup.</p>
+            <table>
+              <tr><td><kbd>Super</kbd><kbd>Z</kbd></td><td><i class="dot" style="background:var(--violet)"></i>CPU</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>X</kbd></td><td><i class="dot" style="background:var(--green)"></i>Memory</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>C</kbd></td><td><i class="dot" style="background:#fff"></i>Volume</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>A</kbd></td><td><i class="dot" style="background:#4f4f4f"></i>Calendar</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>H</kbd></td><td><i class="dot" style="background:var(--blue)"></i>Weather</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>V</kbd></td><td><i class="dot" style="background:#61afef"></i>Network</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>F</kbd></td><td><i class="dot" style="background:var(--green)"></i>Power</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>P</kbd></td><td><i class="dot" style="background:var(--indigo)"></i>Display</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>G</kbd></td><td><i class="dot" style="background:var(--green)"></i>GitHub contributions</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>O</kbd></td><td><i class="dot" style="background:var(--text-muted)"></i>Notifications</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>T</kbd></td><td><i class="dot" style="background:var(--text-muted)"></i>Tray</td></tr>
+              <tr><td><kbd>Super</kbd><kbd>Shift</kbd><kbd>H</kbd></td><td><i class="dot" style="background:var(--text-muted)"></i>Bare bar</td></tr>
+            </table>
+          </div>
+          <div class="chapter" id="m-config">
+            <h3>Configuration</h3>
+            <table>
+              <tr><td><code>quickshell/config.js</code></td><td>Colors, fonts, sizes</td></tr>
+              <tr><td><code>quickshell/topbarlayout.json</code></td><td>Bar widget order</td></tr>
+              <tr><td><code>hypr/binds.lua</code></td><td>Keybinds</td></tr>
+              <tr><td><code>hypr/looknfeel.lua</code></td><td>Gaps, borders, animations</td></tr>
+              <tr><td><code>hypr/programs.lua</code></td><td>Terminal, browser, file manager</td></tr>
+              <tr><td><code>hypr/autostart.lua</code></td><td>What starts with the session</td></tr>
+            </table>
+            <p style="margin-top:16px">Saving a QML file live-reloads the shell. No restart needed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">
+      <a href="#home" aria-label="yumedots home"><svg class="wordmark" id="footmark" fill="currentColor" shape-rendering="crispEdges"></svg></a>
+      <p>Dotfiles by the <a href="https://github.com/yumedots">yumedots</a> organization, made by <a href="https://github.com/yyyumeniku">yyyumeniku</a>.</p>
+    </div>
+    <div class="cols">
+      <div><h4>Repos</h4><ul>
+        <li><a href="https://github.com/yumedots/dotfiles">dotfiles</a></li>
+        <li><a href="https://github.com/yumedots/pi-dotfiles">pi-dotfiles</a></li>
+      </ul></div>
+      <div><h4>GitHub</h4><ul>
+        <li><a href="https://github.com/yumedots">yumedots</a></li>
+        <li><a href="https://github.com/yyyumeniku">yyyumeniku</a></li>
+        <li><a href="https://github.com/yumedots/dotfiles/issues">Issues</a></li>
+      </ul></div>
+      <div><h4>Site</h4><ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#install">Install</a></li>
+        <li><a href="#manual">Manual</a></li>
+      </ul></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const FONT = {
+  Y:["10001","10001","01010","00100","00100","00100","00100"],
+  U:["10001","10001","10001","10001","10001","10001","01110"],
+  M:["10001","11011","10101","10101","10001","10001","10001"],
+  E:["11111","10000","10000","11110","10000","10000","11111"],
+  D:["11110","10001","10001","10001","10001","10001","11110"],
+  O:["01110","10001","10001","10001","10001","10001","01110"],
+  T:["11111","00100","00100","00100","00100","00100","00100"],
+  S:["01111","10000","10000","01110","00001","00001","11110"]
+};
+const WORD = [...Array(7)].map((_, r) => [..."YUMEDOTS"].map(c => FONT[c][r]).join("0"));
+const W = WORD[0].length, H = WORD.length;
+
+const foot = document.getElementById("footmark");
+foot.setAttribute("viewBox", `0 0 ${W} ${H}`);
+foot.innerHTML = WORD.flatMap((row, y) => [...row].map((b, x) => b === "1" ? `<rect x="${x}" y="${y}" width="1" height="1"/>` : "")).join("");
+
+const header = document.getElementById("top");
+new IntersectionObserver(([e]) => header.classList.toggle("past", !e.isIntersecting), { rootMargin: "-57px 0px 0px 0px" }).observe(document.getElementById("home"));
+
+document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", () => navigator.clipboard?.writeText(b.dataset.copy)));
+
+const BAYER = [0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21];
+const INK = ["#0d0d0d", "#1c1c1c", "#2f2f2f", "#5c5c5c"];
+const BANDS = ["#ffffff", "#ffffff", "#e6e6e6", "#cfcfcf", "#b0b0b0", "#9a9a9a", "#7a7a7a"];
+const canvas = document.getElementById("field"), ctx = canvas.getContext("2d"), slot = document.getElementById("slot");
+const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let cell, cols, rows, ox, oy, wx, wy, mouse = { x: -1e4, y: -1e4 }, glow = 0, last = 0;
+
+function layout() {
+  const dpr = devicePixelRatio || 1, r = canvas.getBoundingClientRect(), s = slot.getBoundingClientRect();
+  canvas.width = r.width * dpr; canvas.height = r.height * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  cell = s.width / W;
+  wx = s.left - r.left; wy = s.top - r.top;
+  ox = wx - Math.ceil(wx / cell) * cell; oy = wy - Math.ceil(wy / cell) * cell;
+  cols = Math.ceil((r.width - ox) / cell); rows = Math.ceil((r.height - oy) / cell);
+}
+
+function noise(x, y, t) {
+  return (Math.sin(x * .21 + t * .6) + Math.sin(y * .27 - t * .45) + Math.sin((x + y) * .13 + t * .3) + Math.sin(Math.hypot(x - cols / 2, y - rows / 2) * .18 - t * .8)) / 4;
+}
+
+function draw(now) {
+  const t = now / 1000, gap = Math.max(1, cell * .12), size = cell - gap;
+  glow += ((mouse.x > -1e3 ? 1 : 0) - glow) * .08;
+  ctx.fillStyle = "#000"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const wc = Math.round((wx - ox) / cell), wr = Math.round((wy - oy) / cell);
+  for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+    const px = ox + x * cell, py = oy + y * cell, lx = x - wc, ly = y - wr;
+    if (lx >= 0 && lx < W && ly >= 0 && ly < H && WORD[ly][lx] === "1") {
+      ctx.fillStyle = BANDS[ly]; ctx.fillRect(px, py, size, size); continue;
+    }
+    const d = Math.hypot(px + cell / 2 - mouse.x, py + cell / 2 - mouse.y) / cell;
+    const v = (noise(x, y, t) * .5 + .5) * .55 + Math.max(0, 1 - d / 11) * .9 * glow;
+    const lvl = Math.min(3, Math.floor(v * 4 + BAYER[(y & 7) * 8 + (x & 7)] / 64 - .5));
+    if (lvl < 0) continue;
+    ctx.fillStyle = INK[lvl]; ctx.fillRect(px, py, size, size);
+  }
+}
+
+function loop(now) {
+  if (now - last > 33) { last = now; draw(now); }
+  requestAnimationFrame(loop);
+}
+
+addEventListener("resize", () => { layout(); draw(performance.now()); });
+canvas.parentElement.addEventListener("pointermove", e => { const r = canvas.getBoundingClientRect(); mouse = { x: e.clientX - r.left, y: e.clientY - r.top }; if (still) draw(0); });
+canvas.parentElement.addEventListener("pointerleave", () => { mouse = { x: -1e4, y: -1e4 }; if (still) draw(0); });
+document.fonts.ready.then(() => { layout(); still ? draw(0) : requestAnimationFrame(loop); });
+layout(); draw(0);
+</script>
+</body>
+</html>
