@@ -1,6 +1,7 @@
 import { defineConfig, fontProviders } from "astro/config";
 
 export default defineConfig({
+  site: "https://yumedots.pages.dev",
   trailingSlash: "always",
   devToolbar: { enabled: false },
   // Ship CSS inside the HTML so first paint needs no extra request.

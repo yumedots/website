@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "astro build && bunx wrangler deploy"
+    "deploy": "astro build && bunx wrangler pages deploy"
   },
   "devDependencies": {
     "astro": "^7.4.4"

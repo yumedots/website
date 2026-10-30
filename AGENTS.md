@@ -1,6 +1,6 @@
 # yumedots website
 
-The site for the yumedots Hyprland dotfiles, hosted on Cloudflare as static files (Workers static assets).
+The site for the yumedots Hyprland dotfiles, hosted on Cloudflare Pages at https://yumedots.pages.dev.
 
 ## Commands
 
@@ -11,10 +11,10 @@ bun install       # install dependencies
 bun run dev       # dev server; restart it after changing src/content.config.ts
 bun run build     # static build into dist/
 bun run preview   # serve dist/ to check the production build
-bun run deploy    # build, then upload dist/ to Cloudflare with wrangler
+bun run deploy    # build, then upload dist/ to Cloudflare Pages by hand
 ```
 
-`wrangler.jsonc` tells Cloudflare to serve `dist/` as static files; there is no server code. With the repository connected in Cloudflare (Workers Builds), every push to `main` builds with `bun run build` and deploys.
+`wrangler.jsonc` names the Cloudflare Pages project (`yumedots`) and its output folder (`dist/`); there is no server code. The repository is connected to that project, so every push to `main` builds with `bun run build` and deploys; `bun run deploy` is only for deploying by hand.
 
 ## Layout
 

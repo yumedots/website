@@ -1,6 +1,6 @@
 {
-  "name": "yumedots-website",
-  "compatibility_date": "2026-10-30",
-  // A static site: Cloudflare serves the Astro build output, no Worker code.
-  "assets": { "directory": "./dist" }
+  // Cloudflare Pages project, served at https://yumedots.pages.dev. A static site: no Functions.
+  "name": "yumedots",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-10-30"
 }
