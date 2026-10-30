@@ -1,6 +1,8 @@
 document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", async () => {
   try { await navigator.clipboard.writeText(b.dataset.copy); } catch { return; }
-  b.classList.add("done"); setTimeout(() => b.classList.remove("done"), 1400);
+  const label = b.getAttribute("aria-label");
+  b.classList.add("done"); b.setAttribute("aria-label", "Copied");
+  setTimeout(() => { b.classList.remove("done"); b.setAttribute("aria-label", label); }, 1400);
 }));
 
 // A field of white dots on black. They are absent behind the copy, grow toward the edges,
