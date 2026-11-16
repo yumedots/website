@@ -1,9 +1,9 @@
 import { gh } from "./gh.ts";
 
-// Each avatar rests as halftone: white dots on black, one per 4px cell, sized by brightness.
-// Under the pointer the dots swell and take the photo's colour, cell by cell, until they merge
-// into a magnified loupe of the real picture. One offscreen WebGL canvas renders every avatar
-// into its own 2D canvas, and only when something changes: no timers.
+// Each avatar rests as quiet halftone: grey dots on black, one per 4px cell, sized by brightness and
+// never touching. The grid never moves. Under the pointer the dots light up in the photo's own hues,
+// and the very centre fades through to the real picture. One offscreen WebGL canvas renders every
+// avatar into its own 2D canvas, and only when something changes: no timers.
 const VERT = "attribute vec2 p;varying vec2 uv;void main(){uv=p*.5+.5;gl_Position=vec4(p,0.,1.);}";
 const FRAG = `precision mediump float;
 uniform sampler2D tex;uniform vec2 mouse;varying vec2 uv;
@@ -13,14 +13,14 @@ void main(){
   vec3 s=texture2D(tex,c).rgb;
   float lum=dot(s,vec3(.299,.587,.114));
   // Reach of the pointer, measured at the cell so each dot changes as a whole.
-  float k=1.-smoothstep(.12,.5,distance(c,mouse));
-  float radius=mix(sqrt(lum)*.56,.78,k*k);
-  float dots=1.-smoothstep(radius-.08,radius+.08,length(fract(g)-.5));
-  vec3 halftone=mix(vec3(1.),s,smoothstep(.15,.7,k))*dots;
-  // Loupe: the photo itself, magnified, in the middle.
-  float loupe=1.-smoothstep(.13,.2,distance(uv,mouse));
-  vec3 photo=texture2D(tex,mouse+(uv-mouse)*.65).rgb;
-  gl_FragColor=vec4(mix(halftone,photo,loupe),1.);
+  float k=1.-smoothstep(.1,.55,distance(c,mouse));
+  float radius=sqrt(lum)*.42+.06*k;
+  float dots=1.-smoothstep(radius-.06,radius+.06,length(fract(g)-.5));
+  vec3 hue=s/max(max(s.r,s.g),max(s.b,.001));
+  vec3 ink=mix(vec3(.6),hue,smoothstep(.05,.5,k));
+  // The real picture, only where the pointer is.
+  float photo=smoothstep(.55,1.,1.-smoothstep(.0,.3,distance(uv,mouse)));
+  gl_FragColor=vec4(mix(ink*dots,texture2D(tex,uv).rgb,photo),1.);
 }`;
 
 interface Face { ctx: CanvasRenderingContext2D; tex: WebGLTexture }
