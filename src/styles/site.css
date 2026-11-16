@@ -3,7 +3,7 @@
   --border:#1f1f1f;--border-strong:#3f3f3f;
   --text:#fff;--text-2:#cfcfcf;--text-muted:#8a8a8a;
   --brand:#fff;--brand-ink:#000;
-  --nav-h:56px;color-scheme:dark
+  --nav-h:56px;--sans:Geist,system-ui,sans-serif;--mono:"Google Sans Code",ui-monospace,monospace;color-scheme:dark
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:var(--bg);scroll-padding-top:var(--nav-h)}
@@ -63,13 +63,16 @@ h3{font:500 18px/1.3 var(--sans);letter-spacing:-.01em}
 .copy-btn svg{width:18px;height:18px}
 .copy-btn .check,.copy-btn.done svg:first-child{display:none}
 .copy-btn.done .check{display:block}
-.more{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:20px;font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--border-strong);transition:text-decoration-color .15s}
-.more:hover{text-decoration-color:var(--text)}
-.more svg{width:18px;height:18px}
+
+/* Contributors: avatars fetched after load. */
+.people{padding-top:0}
+#people{display:flex;flex-wrap:wrap;gap:12px;list-style:none}
+#people a{display:block;width:64px;height:64px;background:var(--surface-2)}
+#people img{display:block;width:100%;height:100%}
 
 /* Documentation: the chapter list and the page scroll on their own, under the header. */
 .docs{display:grid;grid-template-columns:minmax(0,1fr)}
-.toc{display:flex;gap:4px;overflow-x:auto;padding:12px 16px;background:var(--bg-deep)}
+.toc{display:flex;overflow-x:auto;padding:12px 16px;background:var(--bg-deep)}
 .toc a{flex:none;padding:6px 12px;font-size:14px;color:var(--text-2);transition:color .15s,background .15s}
 .toc a:hover,.toc a[aria-current]{color:var(--text);background:var(--surface-2)}
 .page{display:flex;flex-direction:column;min-height:calc(100svh - var(--nav-h) - 58px);padding:32px 16px 0;max-width:52rem}

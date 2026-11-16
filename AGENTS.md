@@ -4,28 +4,29 @@ The site for the yumedots Hyprland dotfiles, hosted on Cloudflare Pages at https
 
 ## Commands
 
-Bun is the package manager. Run every command with `bun`, never `npm`.
+Bun is the only tool: package manager, bundler, Markdown renderer and dev server. Run every command with `bun`, never `npm`.
 
 ```sh
 bun install       # install dependencies
-bun run dev       # dev server; restart it after changing src/content.config.ts
+bun run dev       # serve at localhost:4321, rebuilding when src/ changes
 bun run build     # static build into dist/
 bun run preview   # serve dist/ to check the production build
-bun run deploy    # build, then upload dist/ to Cloudflare Pages by hand
 ```
 
-`wrangler.jsonc` names the Cloudflare Pages project (`yumedots`) and its output folder (`dist/`); there is no server code. The repository is connected to that project, so every push to `main` builds with `bun run build` and deploys; `bun run deploy` is only for deploying by hand.
+`build.ts` is the whole build. `wrangler.jsonc` is only Cloudflare Pages configuration: the project (`yumedots`) and its output folder (`dist/`). There is no server code and no Cloudflare tooling here. The repository is connected to that project, so every push to `main` builds with `bun run build` and deploys; that is the only way to deploy.
 
 ## Layout
 
 | Path | What it holds |
 | --- | --- |
-| `src/layouts/Base.astro` | The one page shell: head, fonts, header, footer. Every page uses it. |
-| `src/pages/index.astro` | Homepage: the hero and the install commands, nothing else. |
-| `src/pages/docs/[...slug].astro` | One documentation page per Markdown file. |
+| `build.ts` | The build: fonts, scripts, pages, static files into `dist/`. |
+| `serve.ts` | Dev and preview server. |
+| `src/layout.ts` | The one page shell: head, header, footer. Every page uses it. |
+| `src/home.ts` | Homepage: the hero, the install commands and the contributors. |
+| `src/docs.ts` | One documentation page per Markdown file. |
 | `src/content/docs/*.md` | Documentation content. |
 | `src/styles/site.css` | The only stylesheet. Colours and sizes are variables in `:root`. |
-| `src/scripts/` | Small plain scripts, one per job. |
+| `src/scripts/` | Small plain TypeScript scripts, one per job, bundled by `build.ts`. `gh.ts` is the shared cached GitHub API fetch. |
 
 ## Documentation
 
@@ -36,11 +37,11 @@ bun run deploy    # build, then upload dist/ to Cloudflare Pages by hand
 
 ## Rules
 
-1. **Static first.** Every page is plain HTML built ahead of time. Live data (GitHub stars, the author avatar) is a small `fetch` after load from the official GitHub API, cached in `sessionStorage`, and the page must read fine when it fails.
-2. **No UI framework and no CSS library.** No React, Vue, Tailwind or component kits. Plain Astro components, one stylesheet.
-3. **No new dependencies** unless one replaces code we would otherwise write and maintain. Today: `astro`, and `wrangler` (dev only) for Cloudflare deploys.
+1. **Static first.** Every page is plain HTML built ahead of time. Live data (GitHub stars, the contributors) is a small `fetch` after load from the official GitHub API through `src/scripts/gh.ts` (cached, stale on failure), and the page must read fine when it fails.
+2. **No UI framework and no CSS library.** No React, Vue, Tailwind or component kits. Pages are plain template functions, one stylesheet.
+3. **No new dependencies** unless one replaces code we would otherwise write and maintain. Today: none.
 4. **Platform before script.** Use what the browser already does (speculation rules for instant navigation, `<details>`, CSS) before writing JavaScript.
-5. **Size budget.** About 50 KB of HTML per page, CSS inlined, fonts self-hosted through the Astro fonts API, no images above the fold unless they are SVG.
+5. **Size budget.** About 50 KB of HTML per page, CSS inlined, fonts self-hosted (`build.ts` downloads the latin subset), no images above the fold unless they are SVG.
 6. **Sharp at every density.** Icons and logos are inline SVG. Raster images from the GitHub API are requested at at least 4× their displayed size.
 7. **Quiet motion.** No page animations. Hover and focus states are colour changes only.
 

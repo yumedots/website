@@ -1,16 +1,16 @@
-document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", async () => {
-  try { await navigator.clipboard.writeText(b.dataset.copy); } catch { return; }
-  const label = b.getAttribute("aria-label");
+document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach(b => b.addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(b.dataset.copy!); } catch { return; }
+  const label = b.getAttribute("aria-label")!;
   b.classList.add("done"); b.setAttribute("aria-label", "Copied");
   setTimeout(() => { b.classList.remove("done"); b.setAttribute("aria-label", label); }, 1400);
 }));
 
 // A field of white dots on black. They are absent behind the copy, grow toward the edges,
 // and a slow ripple runs outward from the centre. Still for reduced motion; paused off screen.
-const canvas = document.getElementById("dots"), ctx = canvas.getContext("2d");
+const canvas = document.getElementById("dots") as HTMLCanvasElement, ctx = canvas.getContext("2d")!;
 const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const hero = canvas.parentElement;
-let w, h, step, running = false, frame = 0;
+const hero = canvas.parentElement!;
+let w = 0, h = 0, step = 0, running = false, frame = 0;
 
 // The hero's height is measured once per width and then held, so a browser toolbar sliding
 // in or out (which only changes the window height) never moves or stretches the dots.
@@ -24,7 +24,7 @@ function size() {
   step = w < 640 ? 22 : 30;
 }
 
-function draw(t) {
+function draw(t: number) {
   ctx.clearRect(0, 0, w, h);
   ctx.fillStyle = "#fff";
   ctx.beginPath();
@@ -41,13 +41,13 @@ function draw(t) {
   ctx.fill();
 }
 
-function loop(t) {
+function loop(t: number) {
   if (!running) return;
   draw(t);
   frame = requestAnimationFrame(loop);
 }
 
-function play(on) {
+function play(on: boolean) {
   if (still || on === running) return;
   running = on;
   if (on) frame = requestAnimationFrame(loop); else cancelAnimationFrame(frame);
