@@ -64,11 +64,11 @@ h3{font:500 18px/1.3 var(--sans);letter-spacing:-.01em}
 .copy-btn .check,.copy-btn.done svg:first-child{display:none}
 .copy-btn.done .check{display:block}
 
-/* Contributors: avatars fetched after load, drawn as halftone dots; a WebGL lens shows the colour photo under the pointer. */
+/* Contributors: avatars fetched after load. */
 .people{padding-top:0}
 #people{display:flex;flex-wrap:wrap;gap:12px;list-style:none}
 #people a{display:block;width:64px;height:64px;background:var(--surface-2)}
-#people img,#people canvas{display:block;width:100%;height:100%}
+#people img{display:block;width:100%;height:100%}
 
 /* Documentation: the chapter list and the page scroll on their own, under the header. */
 .docs{display:grid;grid-template-columns:minmax(0,1fr)}
